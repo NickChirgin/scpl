@@ -1,5 +1,10 @@
 package handlers
 
-import "net/http"
+import (
+	"net/http"
+)
 
-func Next(w http.ResponseWriter, r *http.Request){}
+func(h *Handler) Next(w http.ResponseWriter, r *http.Request){
+	h.Pl.Nextprev <- true
+	w.WriteHeader(http.StatusOK)
+}
