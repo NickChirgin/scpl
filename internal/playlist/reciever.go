@@ -1,12 +1,6 @@
 package playlist
 
-import (
-	"fmt"
-	"time"
-)
-
-func(p *Playlist) Handler() {
-
+func(p *Playlist) Reciever() {
 	for {
 		select {
 		case data:= <-p.Nextprev:
@@ -20,9 +14,6 @@ func(p *Playlist) Handler() {
 			go p.Play()
 		case data := <- p.Add:
 			go p.AddSong(data)
-		default:
-			time.Sleep(time.Second)
-			fmt.Printf("%s is playing\n", p.Current.Value.(Song).Title)
 		}
 	}
 }

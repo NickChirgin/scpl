@@ -11,7 +11,7 @@ import (
 type Playlist struct {
 	 Tracks *list.List
 	 Current *list.Element
-	 time int
+	 Time int
 	 mu sync.RWMutex
 	 Add chan Song 
 	 Nextprev chan bool  // true = next, false = prev
@@ -20,12 +20,12 @@ type Playlist struct {
 }
 
 type Song struct {
-	Title string
-	Duration int
+	Title string `json:"title"` 
+	Duration int `json:"duration"`
 }
 
 func NewPlaylist() Playlist {
-	return Playlist{Tracks: list.New(), Current: &list.Element{}, PlaySong: make(chan struct{}), Stop: make(chan struct{}), Nextprev: make(chan bool), time: 0, Add: make(chan Song)}
+	return Playlist{Tracks: list.New(), Current: &list.Element{}, PlaySong: make(chan struct{}), Stop: make(chan struct{}), Nextprev: make(chan bool), Time: 0, Add: make(chan Song)}
 }
 
 func (p *Playlist) Play() {
@@ -38,21 +38,19 @@ func (p *Playlist) Play() {
 	if p.Current == nil {
 		p.Current = p.Tracks.Front()
 	}
-	if p.time ==  0{
-		p.time = p.Current.Value.(Song).Duration
+	if p.Time ==  0{
+		p.Time = p.Current.Value.(Song).Duration
 	}
-	fmt.Println(p.time)
-	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(p.time) * time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(p.Time) * time.Second)
 	defer cancel() 
 	deadline, _ := ctx.Deadline()
-	fmt.Println(p.Current.Next(), ctx)
+	fmt.Printf("%s is now playing \n", p.Current.Value.(Song).Title)
 	select {
 	case <-ctx.Done():
-		fmt.Printf("%s song has ended", p.Current.Value.(Song).Title)
+		fmt.Printf("%s song has ended\n", p.Current.Value.(Song).Title)
 		p.Next()
 	case <-p.Stop: 
-		p.time = int(time.Until(deadline).Seconds())
-		fmt.Println(p.time)
+		p.Time = int(time.Until(deadline).Seconds())
 		break
 	}	
 }
@@ -64,14 +62,14 @@ func (p *Playlist) Pause() {
 func (p *Playlist) AddSong(track Song) {
 	p.mu.Lock()
 	defer p.mu.Unlock()
-	fmt.Printf("%s song has been added", track.Title)
+	fmt.Printf("%s song has been added\n", track.Title)
 	p.Tracks.PushBack(track)
 }
 
 func (p *Playlist) Next() {
 	p.mu.RLock()
 	defer p.mu.RUnlock()
-	p.time = 0
+	p.Time = 0
 	if p.Current.Next() != nil || p.Current.Next().Value != (Song{}) {
 		p.Current = p.Current.Next()
 		p.Play()
@@ -81,7 +79,7 @@ func (p *Playlist) Next() {
 func (p *Playlist) Prev() {
 	p.mu.RLock()
 	defer p.mu.RUnlock()
-	p.time = 0
+	p.Time = 0
 	if p.Current.Prev() != nil {
 		p.Current = p.Current.Prev()
 		p.Play()

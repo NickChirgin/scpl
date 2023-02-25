@@ -2,21 +2,25 @@ package main
 
 import (
 	"sync"
-	"time"
 
 	"github.com/nickchirgin/scpl/internal/playlist"
+	"github.com/nickchirgin/scpl/internal/server"
 )
 
 func main() {
 	pl := playlist.NewPlaylist()
 	var wg sync.WaitGroup
-	pl.Tracks.PushBack(playlist.Song{Title: "Big Stan", Duration: 7})
+	pl.Tracks.PushBack(playlist.Song{Title: "Big Stan", Duration: 10})
 	pl.Tracks.PushBack(playlist.Song{Title: "Mockingbird", Duration: 10})
 	pl.Tracks.PushBack(playlist.Song{Title: "Venom", Duration: 15})
 	pl.Current = pl.Tracks.Front()
-	go pl.Handler()
-	go pl.Play()
+	s := server.NewServer(&pl)
+	s.RegisterRoutes()
 	wg.Add(2)
+	go s.Run()
+	go pl.Reciever()
+	wg.Wait()
+	/*wg.Add(2)
 	go func(){
 		time.Sleep(4 * time.Second)
 		pl.Stop <- struct{}{}
@@ -28,4 +32,5 @@ func main() {
 		wg.Done()
 	}()
 	wg.Wait()
+	*/
 }
