@@ -21,4 +21,4 @@
 
 ### Пример работы находится на гифке ниже (качество не очень, но как сделать лучше пока не придумал)
 
-![How it works](https://raw.githubusercontent.com/NickChirgin/scpl/feature/api/gi.gif)
+![How it works](https://raw.githubusercontent.com/NickChirgin/scpl/master/gi.gif)
