@@ -9,6 +9,6 @@ import (
 
 func(h *Handler) Pause(w http.ResponseWriter, r *http.Request){
 	h.Pl.Stop <- struct{}{}
-	fmt.Printf("Song %s stopped at %d", h.Pl.Current.Value.(playlist.Song).Title, h.Pl.Time)
+	fmt.Printf("%s song has been stopped\n", h.Pl.Current.Value.(playlist.Song).Title)
 	w.WriteHeader(http.StatusOK)
 }

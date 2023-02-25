@@ -44,13 +44,13 @@ func (p *Playlist) Play() {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(p.Time) * time.Second)
 	defer cancel() 
 	deadline, _ := ctx.Deadline()
+	fmt.Printf("%s is now playing \n", p.Current.Value.(Song).Title)
 	select {
 	case <-ctx.Done():
 		fmt.Printf("%s song has ended\n", p.Current.Value.(Song).Title)
 		p.Next()
 	case <-p.Stop: 
 		p.Time = int(time.Until(deadline).Seconds())
-		fmt.Printf("%s song has stopped\n", p.Current.Value.(Song).Title)
 		break
 	}	
 }
@@ -72,7 +72,6 @@ func (p *Playlist) Next() {
 	p.Time = 0
 	if p.Current.Next() != nil || p.Current.Next().Value != (Song{}) {
 		p.Current = p.Current.Next()
-		fmt.Printf("%s is now playing \n", p.Current.Value.(Song).Title)
 		p.Play()
 	}
 }
