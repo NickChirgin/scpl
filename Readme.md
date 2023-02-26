@@ -23,7 +23,7 @@
 ![How it works](https://raw.githubusercontent.com/NickChirgin/scpl/master/gi.gif)
 
 ### Как запустить?
-
+Запуск сервера производится на порту 8080.
 ```
 git clone https://github.com/NickChirgin/scpl.git
 ```
