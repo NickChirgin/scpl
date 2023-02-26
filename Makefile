@@ -1,5 +1,6 @@
 build: 
 		go build -o bin/main cmd/main.go
 
-run:  
+run: 
+		go mod tidy 
 		go run cmd/main.go
