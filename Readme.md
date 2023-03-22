@@ -1,33 +1,33 @@
-### Модуль для работы с плейлистом
+### Module for working with a playlist
 
-##### Доступные методы
+##### Available methods
 
-    Play - начинает воспроизведение
-    Pause - приостанавливает воспроизведение
-    AddSong - добавляет в конец плейлиста песню
-    Next воспроизвести след песню
-    Prev воспроизвести предыдущую песню
+    Play - starts playing
+    Pause - pauses playback
+    AddSong - adds a song to the end of the playlist
+    Next - plays the next song
+    Prev - plays the previous song
 
-Методы работают в отдельных горутинах.
+The methods work in separate goroutines.
 
-### API для взаимодействия с плейлистом
+### API for interacting with the playlist
 
-* GET /play - начинает воспроизведение сначала/продолжает с последнего места.
-* GET /pause - останавливает воспроизведение на текущем таймере.
-* GET /prev - начинает воспроизведение предыдущего трека.
-* GET /next - начинает воспроизведение следующего трека.
-* POST /addsong - добавляет трек в конец плейлиста. Поля необходимые для успешного добавления: Title - string, Duration - int
+* GET /play - starts playback from the beginning/continues from the last place.
+* GET /pause - stops playback at the current timer.
+* GET /prev - starts playing the previous track.
+* GET /next - starts playing the next track.
+* POST /addsong - adds a track to the end of the playlist. Fields required for successful addition: Title - string, Duration - int
 
-### Пример работы находится на гифке ниже (качество не очень, но как сделать лучше пока не придумал)
+### An example of how it works is shown in this gif:
 
 ![How it works](https://raw.githubusercontent.com/NickChirgin/scpl/master/gi.gif)
 
-### Как запустить?
-Запуск сервера производится на порту 8080.
+### How to run?
+
+The server is launched on port 8080.
 ```
 git clone https://github.com/NickChirgin/scpl.git
 ```
-
 ```
 make run
 ```
