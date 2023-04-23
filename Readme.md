@@ -1,5 +1,7 @@
 ### Module for working with a playlist
 
+#### The design of API was described in the test task.
+
 ##### Available methods
 
     Play - starts playing
